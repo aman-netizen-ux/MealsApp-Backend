@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface MealsInSpecificCategoryRepository extends JpaRepository<MealsInSpecificCategory, Long> {
     List<MealsInSpecificCategory> findByCategory_Id(Long mealCategoryId);
+
 }

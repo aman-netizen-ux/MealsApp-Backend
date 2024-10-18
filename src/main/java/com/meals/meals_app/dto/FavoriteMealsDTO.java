@@ -9,17 +9,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class MealsInSpecificCategoryDTO {
+public class FavoriteMealsDTO {
+
     private Long id;
+    private Long userId;
+    private Long mealId;
     private String mealName;
     private String level;
     private String timeTaken;
     private String affordability;
 
-    private Boolean isGlutenFree;
-    private Boolean isVegan;
-    private Boolean isVegetarian;
-    private Boolean isLactoseFree;
-
-    private MealDetailsDTO mealDetails;
 }
