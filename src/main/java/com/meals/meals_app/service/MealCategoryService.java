@@ -1,9 +1,6 @@
 package com.meals.meals_app.service;
 
-import com.meals.meals_app.dto.CategoryBasedMealsDTO;
 import com.meals.meals_app.dto.MealCategoryDTO;
-import com.meals.meals_app.dto.MealDetailsDTO;
-import com.meals.meals_app.dto.MealsInSpecificCategoryDTO;
 import com.meals.meals_app.entity.MealCategory;
 import com.meals.meals_app.repository.MealCategoryRepository;
 import jakarta.transaction.Transactional;

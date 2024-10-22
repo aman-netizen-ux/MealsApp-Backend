@@ -1,7 +1,6 @@
 package com.meals.meals_app.service;
 
 import com.meals.meals_app.dto.FavoriteMealsDTO;
-import com.meals.meals_app.dto.MealsInSpecificCategoryDTO;
 import com.meals.meals_app.entity.FavoriteMeals;
 import com.meals.meals_app.entity.MealsInSpecificCategory;
 import com.meals.meals_app.entity.User;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
