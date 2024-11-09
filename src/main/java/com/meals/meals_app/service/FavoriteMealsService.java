@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,14 +30,22 @@ public class FavoriteMealsService {
     @Autowired
     private MealsInSpecificCategoryService mealsInSpecificCategoryService;
 
-    public boolean addFavoriteMeal(Long userId, Long mealId){
+    public boolean addFavoriteMeal(String userId, Long mealId) {
         // Find the user with the userId
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        User user = userRepository.findById(userId).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setUserId(userId);
+            newUser.setIsGlutenFree(false);
+            newUser.setIsVegan(false);
+            newUser.setIsVegetarian(false);
+            newUser.setIsLactoseFree(false);
+            return userRepository.save(newUser);
+        });
         // Find the respective meal with the mealId
         MealsInSpecificCategory meal = mealsInSpecificCategoryRepository.findById(mealId)
                 .orElseThrow(() -> new ResourceNotFoundException("Meal not found with id: " + mealId));
 
-        FavoriteMeals favoriteMeals =new FavoriteMeals();
+        FavoriteMeals favoriteMeals = new FavoriteMeals();
         favoriteMeals.setUser(user);
         favoriteMeals.setMeal(meal);
 
@@ -44,11 +53,34 @@ public class FavoriteMealsService {
         return true;
 //        return new FavoriteMealsDTO(favoriteMeals.getMeal().getId(), userId, mealId, favoriteMeals.getMeal().getMealName());
 
-
     }
 
-    public List<FavoriteMealsDTO> getFavoriteMeals(Long userId){
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+    public boolean removeFavoriteMeal(String userId, Long mealId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with the id: " + userId));
+        MealsInSpecificCategory meal = mealsInSpecificCategoryRepository.findById(mealId)
+                .orElseThrow(() -> new ResourceNotFoundException("Meal not found with id: " + mealId));
+
+        Optional<FavoriteMeals> alreadyFavorite = Optional.ofNullable(favoriteMealsRepository.findByUserAndMeal(user, meal));
+
+        if(alreadyFavorite.isPresent()){
+            //If the meal is present, then remove from the favorites
+            favoriteMealsRepository.delete(alreadyFavorite.get());
+            return true;
+        }
+        return false;
+    }
+
+    public List<FavoriteMealsDTO> getFavoriteMeals(String userId) {
+        User user = userRepository.findById(userId).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setUserId(userId);
+            newUser.setIsGlutenFree(false);
+            newUser.setIsVegan(false);
+            newUser.setIsVegetarian(false);
+            newUser.setIsLactoseFree(false);
+            return userRepository.save(newUser);
+        });
 
         return favoriteMealsRepository.findByUser(user).stream().map(favorite -> FavoriteMealsDTO.builder().mealId(favorite.getMeal().getId())
                 .mealName(favorite.getMeal().getMealName())

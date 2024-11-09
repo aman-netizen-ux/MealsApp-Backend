@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class FavoriteMealsDTO {
 
     private Long id;
-    private Long userId;
+    private String userId;
     private Long mealId;
     private String mealName;
     private String level;

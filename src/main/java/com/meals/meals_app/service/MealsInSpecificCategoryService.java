@@ -26,10 +26,18 @@ public class MealsInSpecificCategoryService {
     @Autowired
     private UserRepository userRepository;
 
-    public MealsInSpecificCategoryDTO getSpecificMeal(Long mealId, Long userId) {
+    public MealsInSpecificCategoryDTO getSpecificMeal(Long mealId, String userId) {
         MealsInSpecificCategory meal = mealsInSpecificCategoryRepository.findById(mealId).orElseThrow(() -> new ResourceNotFoundException("Meal not found with id: " + mealId));
 
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User not found with id:" + userId));
+        User user = userRepository.findById(userId).orElseGet(() -> {
+            User newUser = new User();
+            newUser.setUserId(userId);
+            newUser.setIsGlutenFree(false);
+            newUser.setIsVegan(false);
+            newUser.setIsVegetarian(false);
+            newUser.setIsLactoseFree(false);
+            return userRepository.save(newUser);
+        });
 
         boolean isFavorite = favoriteRepository.existsByUserAndMeal(user, meal.getMealDetails().getMeal());
 
@@ -64,6 +72,7 @@ public class MealsInSpecificCategoryService {
     }
 
     public List<MealsInSpecificCategoryDTO> getMealsOfSpecificCategory(Long mealCategoryId) {
+//        , Boolean isGlutenFree, Boolean isVegan, Boolean isVegetarian, Boolean isLactoseFree
         List<MealsInSpecificCategory> categoryMeals = mealsInSpecificCategoryRepository.findByCategory_Id(mealCategoryId);
 
         if (categoryMeals.isEmpty()) {

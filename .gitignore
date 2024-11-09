@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Firebase service account key
+/src/main/resources/meals-app-f4782-firebase-adminsdk-cj9fe-0d85ec95d2.json
