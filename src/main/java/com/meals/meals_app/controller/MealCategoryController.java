@@ -1,7 +1,7 @@
 package com.meals.meals_app.controller;
 
+import com.meals.meals_app.dto.ApiResponse;
 import com.meals.meals_app.dto.MealCategoryDTO;
-import com.meals.meals_app.dto.ResponseMessage;
 import com.meals.meals_app.entity.MealCategory;
 import com.meals.meals_app.service.MealCategoryService;
 import jakarta.validation.Valid;
@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
+import shaded_package.io.swagger.models.apideclaration.ResponseMessage;
 
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class MealCategoryController {
 
 
     @PostMapping("/addCategory")
-    public ResponseEntity<ResponseMessage> addMealCategory(@Valid @RequestBody MealCategory category) {
+    public ResponseEntity<ApiResponse> addMealCategory(@Valid @RequestBody MealCategory category) {
 
         category.getMeals().forEach(meal -> {
             meal.setCategory(category);
@@ -51,9 +52,9 @@ public class MealCategoryController {
 
         boolean isAdded = mealCategoryService.addMealCategory(category);
         if (isAdded) {
-            return ResponseEntity.ok(new ResponseMessage("Meal category and associated meals added successfully!"));
+            return ResponseEntity.ok(new ApiResponse("Meal category and associated meals added successfully!"));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Failed to add category"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to add category"));
         }
     }
 }

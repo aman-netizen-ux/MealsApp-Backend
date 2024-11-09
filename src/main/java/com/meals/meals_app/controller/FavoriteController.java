@@ -1,5 +1,6 @@
 package com.meals.meals_app.controller;
 
+import com.meals.meals_app.dto.ApiResponse;
 import com.meals.meals_app.dto.FavoriteMealsDTO;
 import com.meals.meals_app.service.FavoriteMealsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,14 @@ public class FavoriteController {
     // Mark a meal as favorite
     @PostMapping("/add")
     //public ResponseEntity<String> addFavorite(HttpServletRequest request, @RequestParam Long mealId, @RequestParam Long userId) {
-    public ResponseEntity<String> addFavorite(HttpServletRequest request, @RequestParam Long mealId) {
+    public ResponseEntity<ApiResponse> addFavorite(HttpServletRequest request, @RequestParam Long mealId) {
         String userId = (String) request.getAttribute("userId");
         boolean added = favoriteService.addFavoriteMeal(userId, mealId);
 
         if (added) {
-            return ResponseEntity.ok("Meal marked as favorite");
+            return ResponseEntity.ok(new ApiResponse("Meal marked as favorite"));
         } else {
-            return ResponseEntity.status(500).body("Failed to mark meal as favorite");
+            return ResponseEntity.status(500).body(new ApiResponse("Failed to mark meal as favorite"));
         }
     }
 
@@ -39,13 +40,13 @@ public class FavoriteController {
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> removeFavorite(HttpServletRequest request,  @RequestParam Long mealId){
+    public ResponseEntity<ApiResponse> removeFavorite(HttpServletRequest request,  @RequestParam Long mealId){
         String userId = (String)  request.getAttribute("userId");
         boolean removed = favoriteService.removeFavoriteMeal(userId, mealId);
         if(removed){
-            return ResponseEntity.ok("Meal removed from favorites");
+            return ResponseEntity.ok(new ApiResponse("Meal removed from favorites"));
         }else{
-            return ResponseEntity.status(500).body("failed to remove from favorites");
+            return ResponseEntity.status(500).body(new ApiResponse("Failed to remove from favorites"));
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.meals.meals_app.controller;
 
+import com.meals.meals_app.dto.ApiResponse;
 import com.meals.meals_app.dto.MealBookmarkDTO;
 import com.meals.meals_app.dto.MealDetailsDTO;
-import com.meals.meals_app.dto.ResponseMessage;
 import com.meals.meals_app.service.MealDetailsService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import shaded_package.io.swagger.models.apideclaration.ResponseMessage;
 
 import java.util.List;
 
@@ -24,13 +25,13 @@ public class MealDetailsController {
 
 
     @PutMapping("/bookmarkMeal/{mealId}")
-    public ResponseEntity<ResponseMessage> bookmarkMeal(@PathVariable Long mealId, @RequestBody @Valid MealBookmarkDTO mealBookmarkDTO) {
+    public ResponseEntity<ApiResponse> bookmarkMeal(@PathVariable Long mealId, @RequestBody @Valid MealBookmarkDTO mealBookmarkDTO) {
         boolean bookmarkAdded = mealDetailsService.addMealInFavourite(mealId, mealBookmarkDTO);
 
         if (bookmarkAdded) {
-            return ResponseEntity.ok(new ResponseMessage("Meal bookmarked successfully"));
+            return ResponseEntity.ok(new ApiResponse("Meal bookmarked successfully"));
         } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseMessage("Unable to bookmark the meal"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Unable to bookmark the meal"));
         }
     }
 

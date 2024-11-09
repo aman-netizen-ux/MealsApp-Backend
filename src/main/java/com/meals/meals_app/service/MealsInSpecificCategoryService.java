@@ -71,39 +71,40 @@ public class MealsInSpecificCategoryService {
         return mealDetailsDTO;
     }
 
-    public List<MealsInSpecificCategoryDTO> getMealsOfSpecificCategory(Long mealCategoryId) {
-//        , Boolean isGlutenFree, Boolean isVegan, Boolean isVegetarian, Boolean isLactoseFree
-        List<MealsInSpecificCategory> categoryMeals = mealsInSpecificCategoryRepository.findByCategory_Id(mealCategoryId);
+    public List<MealsInSpecificCategoryDTO> getMealsOfSpecificCategory(Long mealCategoryId, Boolean isGlutenFree, Boolean isVegan, Boolean isVegetarian, Boolean isLactoseFree) {
+        List<MealsInSpecificCategory> categoryMeals = mealsInSpecificCategoryRepository.findAllByCategoryAndFilters(
+                mealCategoryId,
+                isVegetarian,
+                isVegan,
+                isLactoseFree,
+                isGlutenFree
+        );
 
-        if (categoryMeals.isEmpty()) {
-            throw new ResourceNotFoundException("No meals found for category id: " + mealCategoryId);
-
-        }
-        return categoryMeals.stream().map(categoryMeal ->
-                {
-                    MealDetailsDTO mealDetailsDTO = null;
-                    if (categoryMeal.getMealDetails() != null) {
-                        mealDetailsDTO = new MealDetailsDTO(
-                                categoryMeal.getMealDetails().getId(),
-                                categoryMeal.getMealDetails().getMealName(),
-                                categoryMeal.getMealDetails().getIngredients(),
-                                categoryMeal.getMealDetails().getIsFavorite(),
-                                categoryMeal.getMealDetails().getSteps()
-                        );
-                    }
-                    return new MealsInSpecificCategoryDTO(
-                            categoryMeal.getId(),
-                            categoryMeal.getMealName(),
-                            categoryMeal.getLevel(),
-                            categoryMeal.getAffordability(),
-                            categoryMeal.getTimeTaken(),
-                            categoryMeal.getIsGlutenFree(),
-                            categoryMeal.getIsVegan(),
-                            categoryMeal.getIsVegetarian(),
-                            categoryMeal.getIsLactoseFree(),
-                            mealDetailsDTO
-                    );
-                })
-                .collect(Collectors.toList());
+        // Directly return an empty list if no meals are found
+        return categoryMeals.stream().map(categoryMeal -> {
+            MealDetailsDTO mealDetailsDTO = null;
+            if (categoryMeal.getMealDetails() != null) {
+                mealDetailsDTO = new MealDetailsDTO(
+                        categoryMeal.getMealDetails().getId(),
+                        categoryMeal.getMealDetails().getMealName(),
+                        categoryMeal.getMealDetails().getIngredients(),
+                        categoryMeal.getMealDetails().getIsFavorite(),
+                        categoryMeal.getMealDetails().getSteps()
+                );
+            }
+            return new MealsInSpecificCategoryDTO(
+                    categoryMeal.getId(),
+                    categoryMeal.getMealName(),
+                    categoryMeal.getLevel(),
+                    categoryMeal.getAffordability(),
+                    categoryMeal.getTimeTaken(),
+                    categoryMeal.getIsGlutenFree(),
+                    categoryMeal.getIsVegan(),
+                    categoryMeal.getIsVegetarian(),
+                    categoryMeal.getIsLactoseFree(),
+                    mealDetailsDTO
+            );
+        }).collect(Collectors.toList());
     }
+
 }

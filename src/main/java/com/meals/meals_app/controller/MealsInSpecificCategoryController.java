@@ -20,9 +20,8 @@ public class MealsInSpecificCategoryController {
 
 
     @GetMapping("/getMealsInSpecificCategory/{mealCategoryId}")
-    public ResponseEntity<List<MealsInSpecificCategoryDTO>> getAllMealsInSpecificCategory(@PathVariable() Long mealCategoryId) {
-        //, @RequestParam Boolean isGlutenFree, @RequestParam Boolean isVegan, @RequestParam Boolean isVegetarian, @RequestParam Boolean isLactoseFree
-        List<MealsInSpecificCategoryDTO> meals = mealsInSpecificCategoryService.getMealsOfSpecificCategory(mealCategoryId);
+    public ResponseEntity<List<MealsInSpecificCategoryDTO>> getAllMealsInSpecificCategory(@PathVariable() Long mealCategoryId, @RequestParam Boolean isGlutenFree, @RequestParam Boolean isVegan, @RequestParam Boolean isVegetarian, @RequestParam Boolean isLactoseFree) {
+        List<MealsInSpecificCategoryDTO> meals = mealsInSpecificCategoryService.getMealsOfSpecificCategory(mealCategoryId, isGlutenFree, isVegan, isVegetarian, isLactoseFree);
         return ResponseEntity.ok(meals);
     }
 
