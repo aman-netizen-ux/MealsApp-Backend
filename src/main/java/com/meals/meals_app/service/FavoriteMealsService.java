@@ -51,7 +51,6 @@ public class FavoriteMealsService {
 
         favoriteMealsRepository.save(favoriteMeals);
         return true;
-//        return new FavoriteMealsDTO(favoriteMeals.getMeal().getId(), userId, mealId, favoriteMeals.getMeal().getMealName());
 
     }
 

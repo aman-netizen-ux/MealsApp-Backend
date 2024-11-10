@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MealDetailsRepository extends JpaRepository<MealDetails, Long> {
-    MealDetails findMealDetailsById(Long mealId);
 }

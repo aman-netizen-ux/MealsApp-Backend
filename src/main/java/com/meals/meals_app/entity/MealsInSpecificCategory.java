@@ -1,6 +1,5 @@
 package com.meals.meals_app.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;

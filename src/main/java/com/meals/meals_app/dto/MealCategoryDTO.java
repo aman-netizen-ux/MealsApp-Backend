@@ -5,8 +5,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,5 +12,4 @@ import java.util.List;
 public class MealCategoryDTO {
     private long id;
     private String name;
-//    private List<MealsInSpecificCategoryDTO> meals;
 }

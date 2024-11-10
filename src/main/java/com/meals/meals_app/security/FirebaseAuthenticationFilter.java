@@ -20,7 +20,6 @@ public class FirebaseAuthenticationFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        System.out.println("Firebase Filter Called");
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -30,16 +29,11 @@ public class FirebaseAuthenticationFilter implements Filter {
             return;
         }
         String token = getBearerToken(httpRequest);
-        System.out.println("token: fetched"+ token);
 
         if (token != null) {
-            System.out.println("token isn't null: "+ token);
             try {
-                System.out.println("line 31");
                 FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-                System.out.println("decoded token:" + decodedToken);
                 String userId = decodedToken.getUid();
-                System.out.println("userid:" + userId);
                 request.setAttribute("userId", userId);
 
                 FirebaseAuthenticationToken firebaseAuthenticationToken = new FirebaseAuthenticationToken(userId);
@@ -58,10 +52,7 @@ public class FirebaseAuthenticationFilter implements Filter {
 
     private String getBearerToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
-        System.out.print("bearer Token:" + bearerToken);
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            System.out.println("bearer not null");
-            System.out.println("bearer substring:" + bearerToken.substring(7));
             return bearerToken.substring(7);
         }
         return null;

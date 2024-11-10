@@ -19,7 +19,6 @@ public class FavoriteController {
 
     // Mark a meal as favorite
     @PostMapping("/add")
-    //public ResponseEntity<String> addFavorite(HttpServletRequest request, @RequestParam Long mealId, @RequestParam Long userId) {
     public ResponseEntity<ApiResponse> addFavorite(HttpServletRequest request, @RequestParam Long mealId) {
         String userId = (String) request.getAttribute("userId");
         boolean added = favoriteService.addFavoriteMeal(userId, mealId);
@@ -39,6 +38,7 @@ public class FavoriteController {
         return ResponseEntity.ok(favoriteMeals);
     }
 
+    //Remove favorite meal
     @DeleteMapping("/delete")
     public ResponseEntity<ApiResponse> removeFavorite(HttpServletRequest request,  @RequestParam Long mealId){
         String userId = (String)  request.getAttribute("userId");

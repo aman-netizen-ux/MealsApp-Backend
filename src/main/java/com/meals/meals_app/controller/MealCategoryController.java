@@ -26,19 +26,14 @@ public class MealCategoryController {
     @Autowired
     private MealCategoryService mealCategoryService;
 
+    //Get All Categories
     @GetMapping("/getAllCategories")
     public ResponseEntity<List<MealCategoryDTO>> getAllMealCategories() {
         List<MealCategoryDTO> categories = mealCategoryService.getAllCategories();
         return ResponseEntity.ok(categories);
     }
 
-//    @GetMapping("/getCategorybasedMeal")
-//    public ResponseEntity<List<MealCategoryDTO>> getAllMealCategories(){
-//        List<MealCategoryDTO> categories = mealCategoryService.getAllCategories();
-//        return ResponseEntity.ok(categories);
-//    }
-
-
+    //Add a category and meal associated with it - FOR ADMIN ONLY
     @PostMapping("/addCategory")
     public ResponseEntity<ApiResponse> addMealCategory(@Valid @RequestBody MealCategory category) {
 

@@ -18,14 +18,14 @@ public class MealsInSpecificCategoryController {
     @Autowired
     private MealsInSpecificCategoryService mealsInSpecificCategoryService;
 
-
+    // Get Category based meals
     @GetMapping("/getMealsInSpecificCategory/{mealCategoryId}")
     public ResponseEntity<List<MealsInSpecificCategoryDTO>> getAllMealsInSpecificCategory(@PathVariable() Long mealCategoryId, @RequestParam Boolean isGlutenFree, @RequestParam Boolean isVegan, @RequestParam Boolean isVegetarian, @RequestParam Boolean isLactoseFree) {
         List<MealsInSpecificCategoryDTO> meals = mealsInSpecificCategoryService.getMealsOfSpecificCategory(mealCategoryId, isGlutenFree, isVegan, isVegetarian, isLactoseFree);
         return ResponseEntity.ok(meals);
     }
 
-
+    //Get specific meal details
     @GetMapping("/getSpecificMeal")
     public ResponseEntity<MealsInSpecificCategoryDTO> getSingleMeal(@RequestParam Long mealId, HttpServletRequest request) {
         String userId = (String) request.getAttribute("userId");

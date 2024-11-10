@@ -10,7 +10,6 @@ import java.util.List;
 
 @Repository
 public interface FavoriteMealsRepository extends JpaRepository<FavoriteMeals, Long>{
-//    List<FavoriteMeals> findMealsById(Long userId);
     boolean existsByUserAndMeal(User user, MealsInSpecificCategory meal);
     List<FavoriteMeals> findByUser(User user);
     FavoriteMeals findByUserAndMeal(User user, MealsInSpecificCategory meal);
